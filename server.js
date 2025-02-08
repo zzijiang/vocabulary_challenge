@@ -9,9 +9,6 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// 添加静态文件服务
-app.use(express.static(path.join(__dirname, 'dist')));
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 const SCORES_FILE = path.join(__dirname, 'scores.csv');
@@ -19,6 +16,8 @@ const VOCABULARY_FILE = path.join(__dirname, 'vocabulary.csv');
 
 app.use(express.json());
 app.use(cors());
+// 添加静态文件服务
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // 确保CSV文件存在并包含表头
 async function ensureFile() {
