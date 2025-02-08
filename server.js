@@ -6,18 +6,16 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const app = express();
 const PORT = process.env.PORT || 3001;
 const SCORES_FILE = path.join(__dirname, 'scores.csv');
 const VOCABULARY_FILE = path.join(__dirname, 'vocabulary.csv');
 
 app.use(express.json());
 app.use(cors());
-// 添加静态文件服务
-app.use(express.static(path.join(__dirname, 'dist')));
 
 // 确保CSV文件存在并包含表头
 async function ensureFile() {
@@ -94,6 +92,14 @@ app.post('/api/scores', async (req, res) => {
     console.error('Error saving score:', error);
     res.status(500).json({ error: 'Failed to save score' });
   }
+});
+
+// 然后提供静态文件服务
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// 最后处理所有其他路由
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
