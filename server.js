@@ -94,6 +94,13 @@ app.post('/api/scores', async (req, res) => {
   }
 });
 
+app.use((req, res, next) => {
+  if (req.url.endsWith('.js')) {
+    res.type('application/javascript');
+  }
+  next();
+});
+
 // 然后提供静态文件服务
 app.use(express.static(path.join(__dirname, 'dist')));
 
