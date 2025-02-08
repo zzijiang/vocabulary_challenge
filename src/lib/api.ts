@@ -1,15 +1,22 @@
 // src/lib/api.ts
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? '/api'  // 生产环境使用相对路径
-  : 'http://localhost:3001/api';
+const API_BASE_URL = window.location.hostname === 'localhost'
+  ? '/api'  // 生产环境
+  : 'http://localhost:3001/api';  // 开发环境
 
-// 添加获取词库的函数
 export async function fetchVocabulary() {
-  const response = await fetch(`${API_BASE_URL}/vocabulary`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch vocabulary');
+  try {
+    console.log('Fetching vocabulary from:', `${API_BASE_URL}/vocabulary`); // 添加调试日志
+    const response = await fetch(`${API_BASE_URL}/vocabulary`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch vocabulary');
+    }
+    const data = await response.json();
+    console.log('Vocabulary data:', data); // 添加调试日志
+    return data;
+  } catch (error) {
+    console.error('Vocabulary fetch error:', error); // 添加错误日志
+    throw error;
   }
-  return response.json();
 }
 
 export async function fetchScores() {
