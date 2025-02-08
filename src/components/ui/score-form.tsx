@@ -22,7 +22,6 @@ const ScoreForm: React.FC<ScoreFormProps> = ({ stats, onSubmit, onSkip }) => {
     const playerScore: PlayerScore = {
       ...formData,
       ...stats,
-      timestamp: Date.now()
     };
     onSubmit(playerScore);
   };
