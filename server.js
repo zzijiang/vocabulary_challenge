@@ -27,11 +27,6 @@ async function ensureFile() {
   }
 }
 
-// 添加通配符路由处理
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
 // 获取词库数据
 app.get('/api/vocabulary', async (req, res) => {
   try {
